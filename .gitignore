@@ -1,0 +1,19 @@
+# PHP / Composer
+vendor/
+composer.lock
+.env
+
+# XAMPP / OS
+.DS_Store
+Thumbs.db
+
+# Uploads (keep folder, ignore contents)
+/uploads/*
+!uploads/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+
+# Node
+node_modules/
