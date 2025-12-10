@@ -82,7 +82,7 @@ try {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        .sidebar {
+        /* .sidebar {
             position: fixed;
             top: 0;
             bottom: 0;
@@ -105,7 +105,7 @@ try {
         .sidebar .nav-link.active {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-        }
+        } */
         main {
             padding-top: 70px;
         }
@@ -160,14 +160,12 @@ try {
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <?php include 'includes/header.php'; ?>
-    
+   <?php include 'includes/header.php'; ?>
     
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
-             <?php include 'includes/sidebar.php'; ?>
+            <?php include 'includes/sidebar.php'; ?>
+
              <!-- Main Content -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">

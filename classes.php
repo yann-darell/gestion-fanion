@@ -164,10 +164,10 @@ try {
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
         .navbar { background: linear-gradient(135deg, #2563eb, #1e40af); }
-        .sidebar { position: fixed; top: 0; bottom: 0; left: 0; z-index: 100; padding: 70px 0 0; background: white; }
+        /* .sidebar { position: fixed; top: 0; bottom: 0; left: 0; z-index: 100; padding: 70px 0 0; background: white; }
         .sidebar .nav-link { color: #6b7280; padding: 0.75rem 1rem; margin-bottom: 0.25rem; border-radius: 10px; }
         .sidebar .nav-link:hover { background: #f3f4f6; color: #2563eb; }
-        .sidebar .nav-link.active { background: linear-gradient(135deg, #2563eb, #1e40af); color: white; }
+        .sidebar .nav-link.active { background: linear-gradient(135deg, #2563eb, #1e40af); color: white; } */
         main { padding-top: 70px; }
         .card { border: none; border-radius: 15px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); transition: transform 0.3s; }
         .card:hover { transform: translateY(-3px); }
@@ -176,67 +176,11 @@ try {
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <nav class="navbar navbar-dark fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="dashboard.php">
-                <i class="bi bi-mortarboard-fill me-2"></i>
-                Collège Le Fanion
-            </a>
-            <div class="d-flex">
-                <div class="dropdown">
-                    <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                        <?php echo htmlspecialchars($user['nom_complet']); ?>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            <form method="POST" action="login.php">
-                                <input type="hidden" name="action" value="logout">
-                                <button type="submit" class="dropdown-item text-danger">
-                                    <i class="bi bi-box-arrow-right me-2"></i>Déconnexion
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
+     <?php include 'includes/header.php'; ?>
     
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
-            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
-                <div class="position-sticky pt-3">
-                    <ul class="nav flex-column px-2">
-                        <li class="nav-item">
-                            <a class="nav-link" href="dashboard.php">
-                                <i class="bi bi-speedometer2 me-2"></i>Tableau de bord
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="eleves.php">
-                                <i class="bi bi-people-fill me-2"></i>Élèves
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="classes.php">
-                                <i class="bi bi-building me-2"></i>Classes
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="matieres.php">
-                                <i class="bi bi-book-fill me-2"></i>Matières
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="notes.php">
-                                <i class="bi bi-journal-text me-2"></i>Notes
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+            <?php include 'includes/sidebar.php'; ?>
             
             <!-- Main Content -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">

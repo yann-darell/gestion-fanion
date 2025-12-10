@@ -1,13 +1,17 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 /**
  * =============================================
  * FICHIER DE CONFIGURATION - COLLÈGE LE FANION
  * =============================================
  */
 
-// Empêcher l'accès direct
+// Empêcher l'accès direct (seulement si pas déjà défini)
 if (!defined('APP_INIT')) {
-    die('Accès interdit');
+    define('APP_INIT', true);
 }
 
 // =============================================
@@ -24,7 +28,7 @@ define('DB_CHARSET', 'utf8mb4');
 // =============================================
 define('APP_NAME', 'Collège Le Fanion - Gestion des Notes');
 define('APP_VERSION', '1.0.0');
-define('APP_URL', 'http://localhost/gestion_fanion');
+define('APP_URL', 'http://localhost/fanion_notes');
 define('APP_PATH', __DIR__);
 
 // =============================================
@@ -34,7 +38,11 @@ define('UPLOADS_DIR', APP_PATH . '/uploads');
 define('BULLETINS_DIR', UPLOADS_DIR . '/bulletins');
 define('BORDEREAUX_DIR', UPLOADS_DIR . '/bordereaux');
 define('RECU_DIR', UPLOADS_DIR . '/recus');
-define('PHOTOS_DIR', UPLOADS_DIR . '/photos');
+
+// IMPORTANT: Photos stockées dans assets/images/photos
+if (!defined('PHOTOS_DIR')) {
+    define('PHOTOS_DIR', APP_PATH . '/assets/images/photos');
+}
 
 // =============================================
 // PARAMÈTRES DE SESSION
@@ -47,6 +55,12 @@ define('SESSION_LIFETIME', 3600); // 1 heure
 // =============================================
 define('HASH_ALGO', PASSWORD_DEFAULT);
 define('HASH_COST', 10);
+
+// =============================================
+// PARAMÈTRES D'UPLOAD DE FICHIERS
+// =============================================
+define('MAX_FILE_SIZE', 5242880); // 5 Mo en octets (augmenté pour les photos)
+define('ALLOWED_IMAGE_TYPES', ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']);
 
 // =============================================
 // CLASSE DE CONNEXION À LA BASE DE DONNÉES
@@ -160,11 +174,64 @@ function getCurrentUser() {
 }
 
 /**
+ * Vérifier si l'utilisateur a une permission spécifique
+ */
+function hasPermission($module, $action = 'view') {
+    $user = getCurrentUser();
+    if (!$user) return false;
+    
+    // L'administrateur a tous les droits
+    if ($user['role'] === 'administrateur') return true;
+    
+    try {
+        $db = getDB();
+        $stmt = $db->prepare("
+            SELECT can_view, can_create, can_edit, can_delete, can_print
+            FROM permissions
+            WHERE role = ? AND module = ?
+        ");
+        $stmt->execute([$user['role'], $module]);
+        $perm = $stmt->fetch();
+        
+        if (!$perm) return false;
+        
+        switch ($action) {
+            case 'view': return $perm['can_view'];
+            case 'create': return $perm['can_create'];
+            case 'edit': return $perm['can_edit'];
+            case 'delete': return $perm['can_delete'];
+            case 'print': return $perm['can_print'];
+            default: return false;
+        }
+    } catch (PDOException $e) {
+        return false;
+    }
+}
+
+/**
  * Vérifier le rôle de l'utilisateur
  */
 function hasRole($role) {
     $user = getCurrentUser();
     return $user && $user['role'] === $role;
+}
+
+/**
+ * Vérifier si l'utilisateur peut accéder à un module
+ */
+function canAccessModule($module) {
+    return hasPermission($module, 'view');
+}
+
+/**
+ * Bloquer l'accès si l'utilisateur n'a pas la permission
+ */
+function requirePermission($module, $action = 'view') {
+    if (!hasPermission($module, $action)) {
+        $_SESSION['error_message'] = "Vous n'avez pas l'autorisation d'accéder à cette fonctionnalité.";
+        redirect('dashboard.php?error=permission_denied');
+        exit();
+    }
 }
 
 /**
@@ -246,8 +313,12 @@ function getMention($moyenne) {
  * Formater une date
  */
 function formatDate($date, $format = 'd/m/Y') {
-    if (empty($date)) return '';
-    return date($format, strtotime($date));
+    if (empty($date)) return '-';
+    try {
+        return date($format, strtotime($date));
+    } catch (Exception $e) {
+        return '-';
+    }
 }
 
 /**
@@ -275,11 +346,19 @@ function genererMatricule($annee_scolaire = null) {
  * Créer les dossiers nécessaires
  */
 function createDirectories() {
-    $dirs = [UPLOADS_DIR, BULLETINS_DIR, BORDEREAUX_DIR, RECU_DIR, PHOTOS_DIR];
+    $dirs = [
+        UPLOADS_DIR, 
+        BULLETINS_DIR, 
+        BORDEREAUX_DIR, 
+        RECU_DIR, 
+        PHOTOS_DIR,
+        APP_PATH . '/assets',
+        APP_PATH . '/assets/images'
+    ];
     
     foreach ($dirs as $dir) {
         if (!file_exists($dir)) {
-            mkdir($dir, 0755, true);
+            mkdir($dir, 0777, true);
         }
     }
 }
@@ -288,15 +367,16 @@ function createDirectories() {
 createDirectories();
 
 // =============================================
-// GESTION DES ERREURS EN DÉVELOPPEMENT
+// GESTION DES ERREURS
 // =============================================
-// Décommenter pour afficher les erreurs en développement
+// En développement : afficher les erreurs (déjà défini au début du fichier)
+// Les lignes ci-dessous sont commentées car déjà définies en haut
 // error_reporting(E_ALL);
 // ini_set('display_errors', 1);
 
-// En production, désactiver l'affichage des erreurs
-error_reporting(0);
-ini_set('display_errors', 0);
+// En production, décommenter ces lignes :
+// error_reporting(0);
+// ini_set('display_errors', 0);
 
 // =============================================
 // FUSEAU HORAIRE
@@ -305,4 +385,4 @@ date_default_timezone_set('Africa/Douala');
 
 // =============================================
 // FIN DE LA CONFIGURATION
-// =============================================
+// ========================================

@@ -5,7 +5,7 @@
  * =============================================
  */
 
-define('APP_INIT', true);
+if (!defined('APP_INIT')) define('APP_INIT', true);
 require_once 'config.php';
 
 // Démarrer la session
@@ -322,4 +322,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // =============================================
 // FIN DU FICHIER D'AUTHENTIFICATION
-// =============================================
+// ==========================================

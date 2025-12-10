@@ -669,13 +669,16 @@ try {
                                         <div class="obs-title">Appréciation du travail :</div>
                                         <div style="min-height: 60px;">
                                             <?php
-                                            if ($bulletin['moyenne']) {
-                                                $moy = $bulletin['moyenne']['moyenne_generale'];
+                                            // Safety checks: ensure $bulletin and moyenne exist and contain a numeric moyenne_generale
+                                            if (!empty($bulletin['moyenne']['moyenne_generale'])) {
+                                                $moy = floatval($bulletin['moyenne']['moyenne_generale']);
                                                 if ($moy >= 16) echo "Excellent travail. Continuez ainsi !";
                                                 elseif ($moy >= 14) echo "Très bon travail. Félicitations !";
                                                 elseif ($moy >= 12) echo "Bon travail. Peut mieux faire.";
                                                 elseif ($moy >= 10) echo "Travail satisfaisant. Doit fournir plus d'efforts.";
                                                 else echo "Résultats insuffisants. Doit redoubler d'efforts.";
+                                            } else {
+                                                echo "Aucune moyenne disponible pour cette période.";
                                             }
                                             ?>
                                         </div>
