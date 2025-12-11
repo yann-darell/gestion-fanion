@@ -28,7 +28,7 @@ if (!isset($user)) {
             </div>
 
             <!-- Notifications -->
-            <div class="dropdown me-3">
+            <!-- <div class="dropdown me-3">
                 <a class="nav-link dropdown-toggle position-relative" href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-bell-fill fs-5"></i>
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
@@ -42,7 +42,7 @@ if (!isset($user)) {
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item text-center" href="#">Voir toutes les notifications</a></li>
                 </ul>
-            </div>
+            </div> -->
 
             <!-- User menu -->
             <div class="dropdown">

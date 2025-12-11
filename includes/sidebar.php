@@ -107,7 +107,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <i class="bi bi-cash-stack"></i>
                     <span class="ms-2">Paiements</span>
                     <span class="badge bg-warning text-dark ms-2" style="font-size: 0.7em;">
-                        <i class="bi bi-lock-fill"></i>
+                       
                     </span>
                 </a>
             </li>
@@ -143,13 +143,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </a>
             </li>
             <?php endif; ?>
-            
-            <li class="nav-item">
-                <a class="nav-link <?php echo ($current_page == 'logs.php') ? 'active' : ''; ?>" href="logs.php">
-                    <i class="bi bi-clock-history"></i>
-                    <span class="ms-2">Historique</span>
-                </a>
-            </li>
+
         </ul>
         <?php endif; ?>
 
@@ -162,18 +156,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <span class="ms-2">Mon profil</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="contact.php">
-                    <i class="bi bi-envelope-fill"></i>
-                    <span class="ms-2">Contact</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="a_propos.php">
-                    <i class="bi bi-info-circle-fill"></i>
-                    <span class="ms-2">À propos</span>
-                </a>
-            </li>
+            
+           
         </ul>
         
         <!-- Informations utilisateur -->

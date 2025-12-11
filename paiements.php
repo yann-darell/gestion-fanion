@@ -154,10 +154,10 @@ try {
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
         .navbar { background: linear-gradient(135deg, #2563eb, #1e40af); }
-        .sidebar { position: fixed; top: 0; bottom: 0; left: 0; z-index: 100; padding: 70px 0 0; background: white; }
+        /* .sidebar { position: fixed; top: 0; bottom: 0; left: 0; z-index: 100; padding: 70px 0 0; background: white; }
         .sidebar .nav-link { color: #6b7280; padding: 0.75rem 1rem; margin-bottom: 0.25rem; border-radius: 10px; }
         .sidebar .nav-link:hover { background: #f3f4f6; color: #2563eb; }
-        .sidebar .nav-link.active { background: linear-gradient(135deg, #2563eb, #1e40af); color: white; }
+        .sidebar .nav-link.active { background: linear-gradient(135deg, #2563eb, #1e40af); color: white; } */
         main { padding-top: 70px; }
         .card { border: none; border-radius: 15px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
         .stat-card .card-body { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem; }

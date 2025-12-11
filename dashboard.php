@@ -7,6 +7,8 @@ require_once 'auth.php';
 Auth::requireLogin();
 
 $user = getCurrentUser();
+
+// Récupérer l'année scolaire depuis les paramètres
 $anneeScolaire = getParam('annee_scolaire_actuelle', date('Y') . '-' . (date('Y') + 1));
 
 // Récupérer les statistiques
@@ -55,13 +57,17 @@ try {
     $totalBulletins = 0;
     $statsClasses = [];
 }
+
+// Récupérer le nom de l'établissement
+$nomEtablissement = getParam('nom_etablissement', APP_NAME);
+$devise = getParam('devise', 'FCFA');
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de bord - <?php echo APP_NAME; ?></title>
+    <title>Tableau de bord - <?php echo $nomEtablissement; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -82,30 +88,6 @@ try {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        /* .sidebar {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 100;
-            padding: 70px 0 0;
-            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-            background: white;
-        }
-        .sidebar .nav-link {
-            color: #6b7280;
-            padding: 0.75rem 1rem;
-            margin-bottom: 0.25rem;
-            border-radius: 10px;
-        }
-        .sidebar .nav-link:hover {
-            background: #f3f4f6;
-            color: var(--primary-color);
-        }
-        .sidebar .nav-link.active {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-        } */
         main {
             padding-top: 70px;
         }
@@ -228,7 +210,7 @@ try {
                                 </div>
                                 <div class="stat-content text-end">
                                     <h3 class="stat-number"><?php echo number_format($totalPaiements, 0, ',', ' '); ?></h3>
-                                    <p class="stat-label">FCFA (<?php echo date('Y'); ?>)</p>
+                                    <p class="stat-label"><?php echo $devise; ?> (<?php echo date('Y'); ?>)</p>
                                 </div>
                             </div>
                         </div>
